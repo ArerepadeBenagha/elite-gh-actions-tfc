@@ -20,6 +20,54 @@ jobs:
           # terraform_version: 0.13.0:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
+      # - name: Terraform Format
+      #   id: fmt
+      #   run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform fmt -check
+
+      # - name: Terraform Init
+      #   id: init
+      #   run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform init
+      
+      # - name: Terraform Validate
+      #   id: validate
+      #   run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform validate -no-color
+
+      # - name: Terraform Plan
+      #   id: plan
+      #   if: github.event_name == 'pull_request'
+      #   run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform plan -no-color
+      #   continue-on-error: true
+
+      # - uses: actions/github-script@0.9.0
+      #   if: github.event_name == 'pull_request'
+      #   env:
+      #     PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
+      #       const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+      #       #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+      #       #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+      #       #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+      #       <details><summary>Show Plan</summary>
+      #       \`\`\`\n
+      #       ${process.env.PLAN}
+      #       \`\`\`
+      #       </details>
+      #       *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+      #       github.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: output
+      #       })
+      # - name: Terraform Plan Status
+      #   if: steps.plan.outcome == 'failure'
+      #   run: exit 1
+
+      # - name: Terraform Apply
+      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform apply -auto-approve      
       - name: Terraform Format
         id: fmt
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform fmt -check
@@ -27,44 +75,31 @@ jobs:
       - name: Terraform Init
         id: init
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform init
-      
-      - name: Terraform Validate
-        id: validate
-        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
-        if: github.event_name == 'pull_request'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform plan -no-color
         continue-on-error: true
 
-      - uses: actions/github-script@0.9.0
-        if: github.event_name == 'pull_request'
-        env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      - name: Update Terraform Issue with Plan Output
+        uses: peter-evans/create-or-update-comment@v1.4.5
+        # env:
+        #   PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            <details><summary>Show Plan</summary>
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-            </details>
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
-      - name: Terraform Plan Status
+          issue-number: 51
+          body: |
+            ##### Terraform Format and Style \'${{ steps.fmt.outcome }}\''
+            ##### Terraform Initialization \'${{ steps.init.outcome }}\'
+            ##### Terraform Plan \'${{ steps.plan.outcome }}\'
+
+            ##### *Initiator: @${{ github.actor }}, Action: \'${{ github.event_name }}\'*
+
+      - name: Stop on Terraform Plan Failure
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform apply -auto-approve
+        continue-on-error: true
