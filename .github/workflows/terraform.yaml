@@ -22,7 +22,7 @@ jobs:
 
       - name: Terraform Format
         id: fmt
-        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform fmt -check
+        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc && terraform fmt -check
 
       - name: Terraform Init
         id: init
