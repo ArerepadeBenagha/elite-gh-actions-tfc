@@ -3,13 +3,15 @@ name: "Terraform"
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
 
 jobs:
   terraform:
     name: "Terraform"
     runs-on: ubuntu-latest
+    env:
+       working-directory: ./dev
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -18,25 +20,28 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           # terraform_version: 0.13.0:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-
+          cli_config_credentials_token: ${{ env.secrets.TF_API_TOKEN }}
 
       - name: Terraform Format
         id: fmt
-        run: cd terraform fmt -check
+        working-directory: ${{ env.working-directory }} 
+        run: terraform fmt -check
 
-      - name: cd Terraform Init
+      - name: Terraform Init
         id: init
-        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform init
+        working-directory: ${{ env.working-directory }} 
+        run: terraform init
       
       - name: Terraform Validate
         id: validate
-        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform validate -no-color
+        working-directory: ${{ env.working-directory }} 
+        run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
-        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform plan -no-color
+        working-directory: ${{ env.working-directory }} 
+        run: terraform plan -no-color
         continue-on-error: true
 
       - uses: actions/github-script@0.9.0
@@ -64,8 +69,10 @@ jobs:
             })
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
+        working-directory: ${{ env.working-directory }} 
         run: exit 1
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform apply -auto-approve
+        working-directory: ${{ env.working-directory }} 
+        run: terraform apply -auto-approve
