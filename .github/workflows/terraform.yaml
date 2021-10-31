@@ -50,3 +50,7 @@ jobs:
 
       - name: change directory & Deploy static site to S3 bucket 
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/public && aws s3 sync . s3://${{ secrets.S3_BUCKET_NAME }}
+      
+      - name: sleep & Destroy Infrastructure after creation
+        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/scripts && ./break.sh
+        shell: bash
