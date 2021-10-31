@@ -53,7 +53,7 @@ jobs:
       
       - name: sleep
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/scripts && sh break.sh
-        shell: shell
+        shell: bash
 
       - name: Destroy Infrastructure after creation
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/public && terraform destroy -auto-approve
