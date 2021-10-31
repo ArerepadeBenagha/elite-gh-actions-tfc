@@ -259,8 +259,8 @@ locals {
     ec2      = "public"
   }
 }
-////////
 
+////////
 terraform {
   required_providers {
     aws = {
