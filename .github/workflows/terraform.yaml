@@ -52,8 +52,8 @@ jobs:
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/public && aws s3 sync . s3://${{ secrets.S3_BUCKET_NAME }}
       
       - name: sleep
-        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/scripts && ./break.sh
-        shell: bash
+        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/scripts && sh break.sh
+        shell: shell
 
       - name: Destroy Infrastructure after creation
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/public && terraform destroy -auto-approve
