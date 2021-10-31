@@ -1,5 +1,4 @@
-name: "Terraform"
-
+name: "Terraform Deploy S3 Static website"
 on:
   push:
     branches:
