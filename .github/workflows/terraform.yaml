@@ -57,4 +57,3 @@ jobs:
 
       - name: Destroy Infrastructure after creation
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform destroy -auto-approve
-      
