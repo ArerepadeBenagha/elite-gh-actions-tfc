@@ -3,7 +3,7 @@ on:
   push:
   pull_request:
     branches:
-      - dev
+      - master
 jobs:
   terraform:
     name: "Terraform"
@@ -53,7 +53,9 @@ jobs:
       - name: sleep
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/scripts && sh break.sh
         shell: bash
-
+      
+      - name: change directory & Empty S3 bucket content
+        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/public && aws s3 rm --recursive s3://${{ secrets.S3_BUCKET_NAME }}
+      
       - name: Destroy Infrastructure after creation
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform destroy -auto-approve
-      
