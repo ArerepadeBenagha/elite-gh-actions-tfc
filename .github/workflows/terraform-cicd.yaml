@@ -55,7 +55,7 @@ jobs:
         shell: bash
       
       - name: change directory & Empty S3 bucket content
-        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/public && aws s3 rm --recursive s3://${{ secrets.S3_BUCKET_NAME }}
+        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/public && aws s3 rb s3://${{ secrets.S3_BUCKET_NAME }} --force  
       
       - name: Destroy Infrastructure after creation
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/dev && terraform destroy -auto-approve
