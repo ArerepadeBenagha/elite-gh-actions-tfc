@@ -39,7 +39,7 @@ resource "aws_security_group" "main-sg" {
 }
 
 #Efs
-resource "aws_efs_file_system" "foo" {
+resource "aws_efs_file_system" "elite-efs" {
   creation_token = "my-product"
 
   tags = merge(local.common_tags,
