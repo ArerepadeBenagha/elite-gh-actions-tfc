@@ -1,5 +1,5 @@
 #Docker-SG
-resource "aws_security_group" "main-alb" {
+resource "aws_security_group" "main-docker" {
   vpc_id      = aws_vpc.main.id
   name        = "public web allow"
   description = "security group for docker"
