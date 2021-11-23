@@ -12,13 +12,16 @@ jobs:
       - name: pwd
         run: pwd
         shell: bash
-        
+
       - name: Packer build
         uses: ExitoLab/packer_build_action_aws@v0.2.10
         with:
           templateFile: 'packer-example.json'
           workingDir: 'packer'
           # varFile: 'packer-example.json'
+      - name: cd into packer folder
+        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer && sh packerbuil.sh
+        shell: bash
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
