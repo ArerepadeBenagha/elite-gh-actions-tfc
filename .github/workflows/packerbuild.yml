@@ -8,11 +8,9 @@ jobs:
   packer_build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: pwd
-        run: pwd
-        shell: bash
+      - uses: actions/checkout@v1
+      - name: Packer build
+        uses: riznob/packer-build-action@v1.5
 
       # - name: Change directory to packer folder
       #   run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer
