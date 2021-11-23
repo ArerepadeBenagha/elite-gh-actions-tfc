@@ -1,0 +1,32 @@
+name: Packer build with a shell script
+on:  
+  push:
+  pull_request:
+    branches:
+      - master
+jobs:
+  packer_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: pwd
+        run: pwd
+        shell: bash
+
+      - name: Change directory to packer folder
+        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer
+        shell: bash
+        
+      - uses: actions/checkout@v1
+      - name: Packer build
+        uses: ExitoLab/packer_build_action_aws@v0.2.10
+
+      - name: change directory to packer folder
+        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer && sh packerbuild.sh
+        shell: bash
+        
+      - name: Configure AWS Credentials 
+        uses: aws-actions/configure-aws-credentials@v1 
+        with: 
+         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} 
+         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+         aws-region: us-east-1
