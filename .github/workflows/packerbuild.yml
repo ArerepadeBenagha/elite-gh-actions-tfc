@@ -8,6 +8,10 @@ jobs:
   packer_build:
     runs-on: ubuntu-latest
     steps:
+      - name: pwd
+        run: pwd
+        shell: bash
+
       - name: Change directory to packer folder
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer
         shell: bash
