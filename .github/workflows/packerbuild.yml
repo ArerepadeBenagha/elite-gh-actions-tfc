@@ -1,8 +1,9 @@
 name: Packer build with a shell script
-on:
+on:  
   push:
+  pull_request:
     branches:
-        - 'master'
+      - master
 jobs:
   packer_build:
     runs-on: ubuntu-latest
