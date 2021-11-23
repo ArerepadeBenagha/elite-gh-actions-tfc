@@ -14,9 +14,9 @@ jobs:
         run: pwd
         shell: bash
 
-      - name: Change directory to packer folder
-        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer
-        shell: bash
+      # - name: Change directory to packer folder
+      #   run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer
+      #   shell: bash
         
       - name: change directory to packer folder
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer && sh packerbuild.sh
