@@ -8,17 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: pwd
-        run: pwd
-        shell: bash
+      - name: Packer build
+      
+        uses: ExitoLab/packer_build_action_aws@v0.2.10
       - name: cd into packer folder
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer && ls -l
         shell: bash
-
-      - name: Packer build
-        uses: ExitoLab/packer_build_action_aws@v0.2.10
-        with:
         
+        with:
           templateFile: 'packer-example.json'
           workingDir: 'packer'
           varFile: 'packer-example.json'
