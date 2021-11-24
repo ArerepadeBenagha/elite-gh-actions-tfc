@@ -20,8 +20,12 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
       
+      - name: pwd
+        run:  pwd
+        shell: bash
+
       - name: permissions
-        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/scripts && chmod 400 packerbuild.sh
+        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer && chmod 400 packerbuild.sh
         shell: bash
 
       - name: test packer build
