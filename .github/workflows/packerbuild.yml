@@ -54,7 +54,7 @@ jobs:
           AWS_DEFAULT_REGION: us-east-1
       
       - name: permissions
-        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer && chmod 400 packerbuild.sh
+        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer && chmod 700 packerbuild.sh && chmod 700 packer-example.json
         shell: bash
 
       - name: test packer build
