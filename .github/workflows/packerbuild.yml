@@ -60,3 +60,4 @@ jobs:
       - name: test packer build
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/scripts && sh packerbuild.sh
         shell: bash
+        
