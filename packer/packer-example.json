@@ -23,11 +23,5 @@
         "ssh_username": "ubuntu",
         "ami_name": "app-{{user `environment`}}-{{timestamp}}"
       }
-    ],
-    "provisioners": [
-      {
-        "type": "shell",
-        "execute_command": "echo app-{{user `environment`}}-{{timestamp}}"
-    }
-  ]
+    ]
 }
