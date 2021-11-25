@@ -52,6 +52,10 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
       
+      - name: list files
+        run: ls -l
+        shell: bash
+
       - name: permissions
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer && chmod 700 packerbuild.sh && chmod 700 packer-example.json
         shell: bash
