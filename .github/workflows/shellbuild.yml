@@ -13,5 +13,4 @@ jobs:
         run: packer/packerbuild.sh
         shell: bash
         with:
-         password: ${{ secrets.ACCESS_TOKEN }}     
-
+         password: ${{ secrets.ACCESS_TOKEN }}
