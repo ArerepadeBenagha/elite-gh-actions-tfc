@@ -27,7 +27,7 @@
     "provisioners": [
       {
         "type": "shell",
-        "execute_command": "echo {{user `environment}}-{{timestamp}"
+        "execute_command": "echo app-{{user `environment`}}-{{timestamp}}"
     }
   ]
 }
