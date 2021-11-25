@@ -27,7 +27,7 @@
     "provisioners": [
       {
         "type": "shell",
-        "execute_command": "echo {{user `environment}}-{{timestamp} >> packer/amivar.tf"
+        "execute_command": "echo {{user `environment}}-{{timestamp}"
     }
   ]
 }
