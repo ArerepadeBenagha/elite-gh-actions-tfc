@@ -24,5 +24,10 @@
         "ami_name": "app-{{user `environment`}}-{{timestamp}}"
       }
     ],
-    "provisioners": []
-  }
+    "provisioners": [
+      {
+        "type": "shell",
+        "execute_command": "echo {{user `environment}}-{{timestamp} | >> packer/amivar.tf"
+    }
+  ]
+}
