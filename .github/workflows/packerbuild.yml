@@ -57,9 +57,9 @@ jobs:
         shell: bash
 
       - name: list files
-        run: ls -l
+        run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/packer && ls -l
         shell: bash
-        
+
       - name: test packer build
         run: cd /home/runner/work/elite-gh-actions-tfc/elite-gh-actions-tfc/scripts && sh packerbuild.sh
         shell: bash
