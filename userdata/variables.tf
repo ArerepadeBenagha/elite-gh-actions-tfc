@@ -3,7 +3,7 @@ variable "instance_type" {
   description = "instance size for ec2"
 }
 
-variable "region" {
+variable "AWS_REGION" {
     type = string
     description = "region to deploy resources"
 }
