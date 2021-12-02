@@ -5,7 +5,7 @@ data "cloudinit_config" "userdata" {
   part {
     content_type = "text/x-shellscript"
     filename     = "userdata_docker"
-    content      = template("./templates/userdata_docker.tpl", {})
+    content      = templatefile("./templates/userdata_docker.tpl", {})
   }
 }
 data "aws_ami" "ubuntu" {
