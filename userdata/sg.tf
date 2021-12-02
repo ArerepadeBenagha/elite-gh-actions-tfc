@@ -3,8 +3,8 @@
 
 resource "aws_security_group" "ec2-sg" {
   name        = "terraform_alb_security_group"
-  description = "Terraform load balancer security group"
-  vpc_id      = "aws_vpc.main.id"
+  description = "Terraform docker server security group"
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     description = "SSH from VPC"
