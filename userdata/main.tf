@@ -6,7 +6,9 @@ resource "aws_instance" "dockerserver" {
   key_name               = aws_key_pair.mykeypair.key_name
   vpc_security_group_ids = [aws_security_group.ec2-sg.id]
   user_data_base64       = data.cloudinit_config.userdata.rendered
-
+  lifecycle {
+    ignore_changes = [ami, user_data_base64]
+  }
   tags = merge(local.common_tags,
     { Name = "docker-server"
   Application = "public" })
