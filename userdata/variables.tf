@@ -1,3 +1,4 @@
 variable "instance_type" {
-  default = "t2.micro"
+  type        = string
+  description = "instance size for ec2"
 }
