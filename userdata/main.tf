@@ -70,6 +70,7 @@ resource "aws_lb_listener" "dockerapp_lblist2" {
   }
 }
 
+
 ####---- Redirect Rule -----####
 resource "aws_lb_listener" "dockerapp_lblist" {
   load_balancer_arn = aws_lb.dockerlb.arn
