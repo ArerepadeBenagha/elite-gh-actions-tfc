@@ -1,4 +1,5 @@
 #! /bin/bash
+# Install jenkins on ubuntu server on terraform first deploy
 sudo apt-get update -y
 curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
   /usr/share/keyrings/jenkins-keyring.asc > /dev/null
