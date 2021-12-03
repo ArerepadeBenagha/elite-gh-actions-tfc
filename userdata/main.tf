@@ -18,7 +18,7 @@ resource "aws_lb" "dockerlb" {
   name               = join("-", [local.application.app_name, "dockerlb"])
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.main-alb.id]
+  security_groups    = [aws_security_group.ec2-sg.id, aws_security_group.main-alb.id]
   subnets            = [aws_subnet.main-public-1.id, aws_subnet.main-public-2.id]
   idle_timeout       = "60"
 
