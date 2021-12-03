@@ -7,6 +7,11 @@ data "cloudinit_config" "userdata" {
     filename     = "userdata_docker"
     content      = templatefile("../templates/userdata_docker.tpl", {})
   }
+  part {
+    content_type = "text/x-shellscript"
+    filename     = "userdata_jenkins"
+    content      = templatefile("../templates/userdata_jenkins.tpl", {})
+  }
 }
 data "aws_ami" "ubuntu" {
   most_recent = true
