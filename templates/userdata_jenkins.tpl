@@ -19,4 +19,5 @@ apt-get update -y
 apt-get install jenkins -y
 systemctl start jenkins
 
-cd /root/jenkins_temp && cat /var/lib/jenkins/secrets/initialAdminPassword > jenkins-secrets.txt
+cd /root/jenkins_temp
+cat /var/lib/jenkins/secrets/initialAdminPassword > jenkins-secrets.txt
