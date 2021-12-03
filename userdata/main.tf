@@ -4,7 +4,7 @@ resource "aws_instance" "dockerserver" {
   instance_type          = var.instance_type
   subnet_id              = aws_subnet.main-public-1.id
   key_name               = aws_key_pair.mykeypair.key_name
-  vpc_security_group_ids = [aws_security_group.ec2-sg.id]
+  vpc_security_group_ids = [aws_security_group.ec2-sg.id, aws_security_group.main-alb.id]
   user_data_base64       = data.cloudinit_config.userdata.rendered
   lifecycle {
     ignore_changes = [ami, user_data_base64]
@@ -58,17 +58,18 @@ resource "aws_lb_target_group_attachment" "dockerapp_tglbat" {
 }
 
 ####-------- SSL Cert ------#####
-# resource "aws_lb_listener" "dockerapp_lblist2" {
-#   load_balancer_arn = aws_lb.dockerlb.arn
-#   port              = "443"
-#   protocol          = "HTTPS"
-#   ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
-#   certificate_arn   = "arn:aws:acm:us-east-1:901445516958:certificate/38e7fca6-b2fb-43ab-b31f-cbb47459a2f4"
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.dockerapp_tglb.arn
-#   }
-# }
+resource "aws_lb_listener" "dockerapp_lblist2" {
+  load_balancer_arn = aws_lb.dockerlb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
+  certificate_arn   = "id=arn:aws:acm:us-east-1:901445516958:certificate/b34fdfa8-1bb7-40c8-aa78-0dc536203272"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.dockerapp_tglb.arn
+  }
+}
+
 ####---- Redirect Rule -----####
 resource "aws_lb_listener" "dockerapp_lblist" {
   load_balancer_arn = aws_lb.dockerlb.arn
