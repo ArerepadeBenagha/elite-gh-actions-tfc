@@ -16,4 +16,4 @@ sudo systemctl start jenkins
 
 # switch to root and apend initialAdminPassword
 sudo su -
-mkdir -p /tmp/jenkins_temp && cd /tmp/jenkins_temp && touch jenkins-secrets.txt && cat /var/lib/jenkins/secrets/initialAdminPassword > jenkins-secrets.txt
+mkdir -p /root/jenkins_temp && cd /root/jenkins_temp && touch jenkins-secrets.txt && cat /var/lib/jenkins/secrets/initialAdminPassword > jenkins-secrets.txt
