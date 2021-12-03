@@ -35,7 +35,7 @@ resource "aws_lb" "dockerlb" {
 ###------- ALB Health Check -------###
 resource "aws_lb_target_group" "dockerapp_tglb" {
   name     = join("-", [local.application.app_name, "dockerapptglb"])
-  port     = 8080
+  port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
 
@@ -54,27 +54,26 @@ resource "aws_lb_target_group" "dockerapp_tglb" {
 resource "aws_lb_target_group_attachment" "dockerapp_tglbat" {
   target_group_arn = aws_lb_target_group.dockerapp_tglb.arn
   target_id        = aws_instance.dockerserver.id
-  port             = 8080
+  port             = 80
 }
 
 ####-------- SSL Cert ------#####
-resource "aws_lb_listener" "dockerapp_lblist2" {
-  load_balancer_arn = aws_lb.dockerlb.arn
-  port              = "443"
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
-  certificate_arn   = "arn:aws:acm:us-east-1:901445516958:certificate/48b8cf75-798a-427e-8301-8f23ab6fde38"
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.dockerapp_tglb.arn
-  }
-}
-
+# resource "aws_lb_listener" "dockerapp_lblist2" {
+#   load_balancer_arn = aws_lb.dockerlb.arn
+#   port              = "443"
+#   protocol          = "HTTPS"
+#   ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
+#   certificate_arn   = "arn:aws:acm:us-east-1:901445516958:certificate/48b8cf75-798a-427e-8301-8f23ab6fde38"
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.dockerapp_tglb.arn
+#   }
+# }
 
 ####---- Redirect Rule -----####
 resource "aws_lb_listener" "dockerapp_lblist" {
   load_balancer_arn = aws_lb.dockerlb.arn
-  port              = "8080"
+  port              = "80"
   protocol          = "HTTP"
 
   default_action {
