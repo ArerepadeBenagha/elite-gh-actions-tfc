@@ -1,4 +1,8 @@
 #! /bin/bash
+# install Java package
+sudo apt-get update -y
+sudo apt install openjdk-11-jdk -y
+
 # Install jenkins on ubuntu server on terraform first deploy
 sudo apt-get update -y
 curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
