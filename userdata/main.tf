@@ -63,7 +63,7 @@ resource "aws_lb_listener" "dockerapp_lblist2" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
-  certificate_arn   = "arn:aws:acm:us-east-1:901445516958:certificate/6a1606fd-7098-4965-835d-0db6d8942eb9"
+  certificate_arn   = "arn:aws:acm:us-east-1:901445516958:certificate/5d6c9408-19a3-4227-91ae-401a7709bca3"
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.dockerapp_tglb.arn
