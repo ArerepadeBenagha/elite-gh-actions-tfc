@@ -4,8 +4,8 @@ resource "aws_launch_configuration" "elitework-dev" {
   name_prefix          = "elitework-${var.app_tier}"
   image_id             = data.aws_ami.ubuntu.id
   instance_type        = var.instance_size
-  key_name             = aws_key_pair.mykeypair.name
-  user_data            = data.template_cloudinit_config.tfe_cloud_config.rendered
+  key_name             = aws_key_pair.mykeypair.key_name
+  user_data            = data.template_cloudinit_config.userdata.rendered
 
   root_block_device {
     volume_size = 155
@@ -222,8 +222,8 @@ resource "aws_route53_record" "www" {
   type    = "A"
 
   alias {
-    name                   = aws_lb.jenkinslb.dns_name
-    zone_id                = aws_lb.jenkinslb.zone_id
+    name                   = aws_lb.elitework_lb.dns_name
+    zone_id                = aws_lb.elitework_lb.zone_id
     evaluate_target_health = true
   }
 }
