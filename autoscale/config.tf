@@ -6,8 +6,6 @@ terraform {
     }
   }
 
-  required_version = ">= 0.14"
-
   backend "remote" {
     organization = "EliteSolutionsIT"
 
@@ -20,5 +18,5 @@ terraform {
   required_version = ">=0.12"
 }
 provider "aws" {
-  region = "us-east-1"
+  region = "ap-southeast-1"
 }
