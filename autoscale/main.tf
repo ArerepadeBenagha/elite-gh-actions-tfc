@@ -5,7 +5,7 @@ resource "aws_launch_configuration" "elitework-dev" {
   image_id             = data.aws_ami.ubuntu.id
   instance_type        = var.instance_size
   key_name             = aws_key_pair.mykeypair.key_name
-  user_data            = data.template_cloudinit_config.userdata.rendered
+  user_data            = data.cloudinit_config.userdata.rendered
 
   root_block_device {
     volume_size = 155
