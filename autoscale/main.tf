@@ -62,7 +62,7 @@ resource "aws_lb" "elitework_lb" {
   ]
 
   subnets = [aws_subnet.main-public-2, aws_subnet.main-private-1.id]
-  tags = merge({ Name = "elitework-${var.app_tier}" }, var.common_tags)
+  tags = merge({ Name = "elitework-${var.app_tier}" }, local.common_tags)
 }
 
 resource "aws_lb_listener" "elitework_443" {
@@ -126,7 +126,7 @@ resource "aws_lb_target_group" "elitework_443" {
   tags = merge(
     { Name = "elitework-443-${var.app_tier}" },
     { Description = "ALB Target Group for TFE web application HTTPS traffic" },
-    var.common_tags
+    local.common_tags
   )
 }
 
@@ -145,7 +145,7 @@ resource "aws_lb_target_group" "elitework_8080" {
   tags = merge(
     { Name = "elitework-8080-${var.app_tier}" },
     { Description = "ALB Target Group for TFE/Replicated web admin console traffic over port 8080" },
-    var.common_tags
+    local.common_tags
   )
 }
 
@@ -172,7 +172,7 @@ resource "aws_lb_target_group" "elitework_8080" {
 #   tags = merge(
 #     { Name = "bain-tfe-app-${data.aws_caller_identity.current.account_id}" },
 #     { Description = "TFE object storage" },
-#     var.common_tags
+#     local.common_tags
 #   )
 # }
 #####------ Certificate -----------####
