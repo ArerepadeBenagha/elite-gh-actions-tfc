@@ -1,7 +1,7 @@
 # Auto Scaling
 ################################################
-resource "aws_launch_configuration" "elite-dev" {
-  name_prefix          = "elite_dev-${var.app_tier}"
+resource "aws_launch_configuration" "elitework-dev" {
+  name_prefix          = "elitework-${var.app_tier}"
   image_id             = data.aws_ami.ubuntu.id
   instance_type        = var.instance_size
   key_name             = aws_key_pair.mykeypair.name
@@ -23,8 +23,8 @@ resource "aws_launch_configuration" "elite-dev" {
 }
 
 resource "aws_autoscaling_group" "tfe_asg" {
-  name                      = "elite_dev-${var.app_tier}"
-  launch_configuration      = aws_launch_configuration.elite-dev.name
+  name                      = "elitework-${var.app_tier}"
+  launch_configuration      = aws_launch_configuration.elitework-dev.name
   min_size                  = 1
   max_size                  = 1
   desired_capacity          = 1
@@ -33,8 +33,8 @@ resource "aws_autoscaling_group" "tfe_asg" {
   health_check_type         = "ELB"
 
   target_group_arns = [
-    aws_lb_target_group.elite_dev_443.arn,
-    aws_lb_target_group.elite_dev_8080.arn
+    aws_lb_target_group.elitework_443.arn,
+    aws_lb_target_group.elitework_8080.arn
   ]
 
   tag {
@@ -51,8 +51,8 @@ resource "aws_key_pair" "mykeypair" {
 ################################################
 # Load Balancing
 ################################################
-resource "aws_lb" "elite_dev_lb" {
-  name               = "elite_dev-${var.app_tier}"
+resource "aws_lb" "elitework_lb" {
+  name               = "elitework-${var.app_tier}"
   internal           = false
   load_balancer_type = "application"
 
@@ -62,11 +62,11 @@ resource "aws_lb" "elite_dev_lb" {
   ]
 
   subnets = [aws_subnet.main-public-2, aws_subnet.main-private-1.id]
-  tags = merge({ Name = "elite_dev-${var.app_tier}" }, var.common_tags)
+  tags = merge({ Name = "elitework-${var.app_tier}" }, var.common_tags)
 }
 
-resource "aws_lb_listener" "elite_dev_443" {
-  load_balancer_arn = aws_lb.elite_dev_lb.arn
+resource "aws_lb_listener" "elitework_443" {
+  load_balancer_arn = aws_lb.elitework_lb.arn
   port              = 443
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
@@ -74,12 +74,12 @@ resource "aws_lb_listener" "elite_dev_443" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.elite_dev_443.arn
+    target_group_arn = aws_lb_target_group.elitework_443.arn
   }
 }
 
-resource "aws_lb_listener" "elite_dev_80_rd" {
-  load_balancer_arn = aws_lb.elite_dev_lb.arn
+resource "aws_lb_listener" "elitework_80_rd" {
+  load_balancer_arn = aws_lb.elitework_lb.arn
   port              = 80
   protocol          = "HTTP"
 
@@ -94,8 +94,8 @@ resource "aws_lb_listener" "elite_dev_80_rd" {
   }
 }
 
-resource "aws_lb_listener" "elite_dev_8080" {
-  load_balancer_arn = aws_lb.elite_dev_lb.arn
+resource "aws_lb_listener" "elitework_8080" {
+  load_balancer_arn = aws_lb.elitework_lb.arn
   port              = 8080
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
@@ -103,12 +103,12 @@ resource "aws_lb_listener" "elite_dev_8080" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.elite_dev_8080.arn
+    target_group_arn = aws_lb_target_group.elitework_8080.arn
   }
 }
 
-resource "aws_lb_target_group" "elite_dev_443" {
-  name     = "elite_dev-443-${var.app_tier}"
+resource "aws_lb_target_group" "elitework_443" {
+  name     = "elitework-443-${var.app_tier}"
   port     = 443
   protocol = "HTTPS"
   vpc_id   = aws_vpc.main.id
@@ -124,14 +124,14 @@ resource "aws_lb_target_group" "elite_dev_443" {
   }
 
   tags = merge(
-    { Name = "elite_dev-443-${var.app_tier}" },
+    { Name = "elitework-443-${var.app_tier}" },
     { Description = "ALB Target Group for TFE web application HTTPS traffic" },
     var.common_tags
   )
 }
 
-resource "aws_lb_target_group" "elite_dev_8080" {
-  name     = "elite_dev-8080-${var.app_tier}"
+resource "aws_lb_target_group" "elitework_8080" {
+  name     = "elitework-8080-${var.app_tier}"
   port     = 8080
   protocol = "HTTPS"
   vpc_id   = aws_vpc.main.id
@@ -143,7 +143,7 @@ resource "aws_lb_target_group" "elite_dev_8080" {
   }
 
   tags = merge(
-    { Name = "elite_dev-8080-${var.app_tier}" },
+    { Name = "elitework-8080-${var.app_tier}" },
     { Description = "ALB Target Group for TFE/Replicated web admin console traffic over port 8080" },
     var.common_tags
   )
@@ -183,7 +183,7 @@ resource "aws_acm_certificate" "jenkinscert" {
     create_before_destroy = true
   }
   tags = merge(local.common_tags,
-    { Name = "elite-jenkins-server.elietesolutionsit.de"
+    { Name = "elitework-jenkins-server.elietesolutionsit.de"
   Cert = "jenkinscert" })
 }
 
@@ -218,7 +218,7 @@ resource "aws_acm_certificate_validation" "jenkinscert" {
 ##------- ALB Alias record ----------##
 resource "aws_route53_record" "www" {
   zone_id = data.aws_route53_zone.main-zone.zone_id
-  name    = "elite-jenkins-devserver.elietesolutionsit.de"
+  name    = "elitework-jenkins-devserver.elietesolutionsit.de"
   type    = "A"
 
   alias {
