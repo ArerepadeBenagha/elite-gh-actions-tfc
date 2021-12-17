@@ -1,11 +1,11 @@
 # Auto Scaling
 ################################################
 resource "aws_launch_configuration" "elitework-dev" {
-  name_prefix          = "elitework-${var.app_tier}"
-  image_id             = data.aws_ami.ubuntu.id
-  instance_type        = var.instance_size
-  key_name             = aws_key_pair.mykeypair.key_name
-  user_data            = data.cloudinit_config.userdata.rendered
+  name_prefix   = "elitework-${var.app_tier}"
+  image_id      = data.aws_ami.ubuntu.id
+  instance_type = var.instance_size
+  key_name      = aws_key_pair.mykeypair.key_name
+  user_data     = data.cloudinit_config.userdata.rendered
 
   root_block_device {
     volume_size = 155
@@ -28,7 +28,7 @@ resource "aws_autoscaling_group" "tfe_asg" {
   min_size                  = 1
   max_size                  = 1
   desired_capacity          = 1
-  vpc_zone_identifier       = aws_subnet_ids.main-public-1.ids
+  vpc_zone_identifier       = [aws_subnet.public-1.id, aws_subnet.public-2.id]
   health_check_grace_period = 1800
   health_check_type         = "ELB"
 
@@ -62,7 +62,7 @@ resource "aws_lb" "elitework_lb" {
   ]
 
   subnets = [aws_subnet.main-public-2, aws_subnet.main-private-1.id]
-  tags = merge({ Name = "elitework-${var.app_tier}" }, local.common_tags)
+  tags    = merge({ Name = "elitework-${var.app_tier}" }, local.common_tags)
 }
 
 resource "aws_lb_listener" "elitework_443" {
