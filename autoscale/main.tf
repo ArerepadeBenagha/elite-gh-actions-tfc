@@ -28,7 +28,7 @@ resource "aws_autoscaling_group" "tfe_asg" {
   min_size                  = 1
   max_size                  = 1
   desired_capacity          = 1
-  vpc_zone_identifier       = aws.main-public-1.ids
+  vpc_zone_identifier       = aws_subnet_ids.main-public-1.ids
   health_check_grace_period = 1800
   health_check_type         = "ELB"
 
