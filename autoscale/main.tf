@@ -61,7 +61,7 @@ resource "aws_lb" "elitework_lb" {
     aws_security_group.main-alb.id
   ]
 
-  subnets            = [for subnet in aws_subnet.main-public-1 : subnet.id]
+  subnets = [for subnet in aws_subnet.main-public-1 : subnet.id]
   tags    = merge({ Name = "elitework-${var.app_tier}" }, local.common_tags)
 }
 
