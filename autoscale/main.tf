@@ -188,9 +188,8 @@
 # }
 
 ###------- Cert Validation -------###
-resource "aws_route53_zone" "main-zone" {
-  name         = "elitelab-devtools.com"
-  private_zone = false
+resource "aws_route53_zone" "primary" {
+  name = "elitelab-devtools.com"
 }
 
 # resource "aws_route53_record" "jenkinszone_record" {
